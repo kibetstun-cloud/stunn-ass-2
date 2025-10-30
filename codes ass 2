@@ -1,0 +1,23 @@
+import pickle
+import pandas as pd
+
+with open("accident_severity_model.pkl", "rb") as f:
+    obj = pickle.load(f)
+model = obj["model"]
+features = obj["features"]
+
+# prepare new sample in same column order:
+new = pd.DataFrame([{
+  "vehicle_speed_kmh": 90,
+  "driver_age": 28,
+  "alcohol_level": 0.05,
+  "seatbelt_used": 0,
+  "num_vehicles": 2,
+  "road_surface_wet": 1,
+  "dark_light": 1,
+  "urban": 0,
+  "vehicle_truck_bus": 0
+}])[features]
+
+pred = model.predict(new)[0]
+print("Predicted severity:", pred)
